@@ -297,7 +297,7 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <div style={dividerStyle} />
         <SectionHeader title="Working with the Executive Sponsor" aiKey="esSponsor" field="esRole" />
         <Field label="What is the ES's role on this account?" name="esRole" placeholder="e.g., Builds senior relationships and unlocks growth; does not redirect strategy or execution" value={form.esRole!} onChange={set} />
-        <Field label="How will we keep them informed and involved?" name="esInvolvement" placeholder="e.g., Bi-weekly sync, recap after key client calls, attends Kickoff + Midpoint" value={form.esInvolvement!} onChange={set} />
+        <Field label="How will we keep the ES informed and involved?" name="esInvolvement" placeholder="e.g., Bi-weekly sync, recap after key client calls, attends Kickoff + Midpoint" value={form.esInvolvement!} onChange={set} />
 
         <div style={{ marginTop: 20 }}>
           <label style={labelStyle}>Which meetings will the ES attend?</label>
@@ -355,6 +355,7 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <SectionHeader title="What Great Looks Like" aiKey="greatLooks" field="clientsExperience" />
         <Field label="For clients" name="clientsExperience" placeholder="e.g., Clear direction, no surprises, momentum they can feel" value={form.clientsExperience!} onChange={set} />
         <Field label="For the team" name="teamExperience" placeholder="e.g., They know what's expected and when" value={form.teamExperience!} onChange={set} />
+        <Field label="What does success look like for the ES?" name="esExperience" placeholder="e.g., They feel informed, connected, and proud of what the team delivered" value={form.esExperience!} onChange={set} />
         <Field label="The one thing we cannot let slip on this account" name="nonNegotiable" placeholder="e.g., What's the non-negotiable?" value={form.nonNegotiable!} onChange={set} />
         <Field label="The early warning signs that this account is in trouble:" name="earlyWarning" placeholder="Early warning signs include..." value={form.earlyWarning!} onChange={set} />
 
