@@ -348,6 +348,7 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
           </div>
         </div>
 
+        <Field label="We escalate to the Executive Sponsor when:" name="esTrigger" placeholder="e.g., Client confidence is at risk / Scope has expanded beyond what we can absorb" value={form.esTrigger!} onChange={set} />
         <Field label="Any additional Executive Sponsor comments from Duo review (optional)" name="esComments" placeholder="ES notes and sign-off comments..." value={(form as any).esComments || ''} onChange={set} />
 
         <div style={dividerStyle} />
@@ -356,11 +357,13 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <Field label="For the team" name="teamExperience" placeholder="e.g., They know what's expected and when" value={form.teamExperience!} onChange={set} />
         <Field label="For the Executive Sponsor" name="esExperience" placeholder="e.g., They know what is expected from them and when" value={form.esExperience!} onChange={set} />
         <Field label="The one thing we cannot let slip on this account" name="nonNegotiable" placeholder="e.g., What's the non-negotiable?" value={form.nonNegotiable!} onChange={set} />
+        <Field label="The early warning signs that this account is in trouble:" name="earlyWarning" placeholder="Early warning signs include..." value={form.earlyWarning!} onChange={set} />
 
         <div style={dividerStyle} />
         <SectionHeader title="Decision Rights" aiKey="decisions" field="decisionsJoint" />
         <Field label="What decisions require both of us in the room?" name="decisionsJoint" placeholder="Both of us need to be present for..." value={form.decisionsJoint!} onChange={set} />
         <Field label="Where do we expect tension and how will we handle it?" name="tensionAreas" placeholder="e.g., Design ambition vs. scope reality / Client pressure vs. craft integrity" value={form.tensionAreas!} onChange={set} />
+        <Field label="We call an emergency Duo sync when:" name="duoSyncTrigger" placeholder="e.g., One of us hears something from the client the other doesn't know" value={form.duoSyncTrigger!} onChange={set} />
 
         <div style={dividerStyle} />
         <SectionHeader title="How We Show Up for the Client" aiKey="showUp" field="csRole" />
@@ -378,12 +381,6 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <Field label="How do you like to receive feedback? (Strategy/Design)" name="stratDesignFeedback" placeholder="I receive feedback best when..." value={form.stratDesignFeedback!} onChange={set} />
         <Field label="What do you need from your Duo partner when things get hard? (CS)" name="csWhenHard" placeholder="When things get hard, I need..." value={form.csWhenHard!} onChange={set} />
         <Field label="What do you need from your Duo partner when things get hard? (Strategy/Design)" name="stratDesignWhenHard" placeholder="When things get hard, I need..." value={form.stratDesignWhenHard!} onChange={set} />
-
-        <div style={dividerStyle} />
-        <SectionHeader title="Escalation Rules" aiKey="escalation" field="duoSyncTrigger" />
-        <Field label="We call an emergency Duo sync when:" name="duoSyncTrigger" placeholder="e.g., One of us hears something from the client the other doesn't know" value={form.duoSyncTrigger!} onChange={set} />
-        <Field label="We escalate to the Executive Sponsor when:" name="esTrigger" placeholder="e.g., Client confidence is at risk / Scope has expanded beyond what we can absorb" value={form.esTrigger!} onChange={set} />
-        <Field label="The early warning signs that this account is in trouble:" name="earlyWarning" placeholder="Early warning signs include..." value={form.earlyWarning!} onChange={set} />
 
         <div style={dividerStyle} />
         <SectionHeader title="Growth Accountability" aiKey="growth" field="growthOpportunity" />
