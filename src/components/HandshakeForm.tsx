@@ -375,12 +375,26 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <div style={dividerStyle} />
         <SectionHeader title="How We Work Together" aiKey="workTogether" field="csEnergy" />
         <div style={sectionSubtitleStyle}>Understanding each other's working styles</div>
-        <Field label="What gives you energy vs. drains you fastest? (CS)" name="csEnergy" placeholder="Energy: ... / Drain: ..." value={form.csEnergy!} onChange={set} />
-        <Field label="What gives you energy vs. drains you fastest? (Strategy/Design)" name="stratDesignEnergy" placeholder="Energy: ... / Drain: ..." value={form.stratDesignEnergy!} onChange={set} />
-        <Field label="How do you like to receive feedback? (CS)" name="csFeedback" placeholder="I receive feedback best when..." value={form.csFeedback!} onChange={set} />
-        <Field label="How do you like to receive feedback? (Strategy/Design)" name="stratDesignFeedback" placeholder="I receive feedback best when..." value={form.stratDesignFeedback!} onChange={set} />
-        <Field label="What do you need from your Duo partner when things get hard? (CS)" name="csWhenHard" placeholder="When things get hard, I need..." value={form.csWhenHard!} onChange={set} />
-        <Field label="What do you need from your Duo partner when things get hard? (Strategy/Design)" name="stratDesignWhenHard" placeholder="When things get hard, I need..." value={form.stratDesignWhenHard!} onChange={set} />
+
+        {/* Column headers */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 32px', marginBottom: 4 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6b6b68', textTransform: 'uppercase', letterSpacing: '0.06em' }}>CS</div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6b6b68', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Strategy / Design</div>
+        </div>
+
+        {[
+          { question: 'What gives you energy vs. drains you fastest?', left: 'csEnergy', right: 'stratDesignEnergy', placeholder: 'Energy: ... / Drain: ...' },
+          { question: 'How do you like to receive feedback?', left: 'csFeedback', right: 'stratDesignFeedback', placeholder: 'I receive feedback best when...' },
+          { question: 'What do you need from your Duo partner when things get hard?', left: 'csWhenHard', right: 'stratDesignWhenHard', placeholder: 'When things get hard, I need...' },
+        ].map(({ question, left, right, placeholder }) => (
+          <div key={left} style={{ marginTop: 20 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#1a1a18', marginBottom: 8 }}>{question}</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 32px' }}>
+              <AutoTextarea name={left} placeholder={placeholder} value={(form as any)[left] || ''} onChange={set} />
+              <AutoTextarea name={right} placeholder={placeholder} value={(form as any)[right] || ''} onChange={set} />
+            </div>
+          </div>
+        ))}
 
         <div style={dividerStyle} />
         <SectionHeader title="Growth Accountability" aiKey="growth" field="growthOpportunity" />
