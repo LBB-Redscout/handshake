@@ -367,8 +367,22 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
 
         <div style={dividerStyle} />
         <SectionHeader title="How We Show Up for the Client" aiKey="showUp" field="csRole" />
-        <Field label="CS role in client meetings" name="csRole" placeholder="e.g., Owner of process, expectation-setter, room-reader" value={form.csRole!} onChange={set} />
-        <Field label="Strategy/Design role in client meetings" name="stratDesignRole" placeholder="e.g., Point of view, narrative driver, creative authority" value={form.stratDesignRole!} onChange={set} />
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 32px', marginBottom: 8, marginTop: 8 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6b6b68', textTransform: 'uppercase', letterSpacing: '0.06em' }}>CS</div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6b6b68', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Strategy / Design</div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 32px' }}>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#1a1a18', marginBottom: 6 }}>What is your role in client meetings?</div>
+            <AutoTextarea name="csRole" placeholder="e.g., Owner of process, expectation-setter, room-reader" value={form.csRole!} onChange={set} />
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#1a1a18', marginBottom: 6 }}>What is your role in client meetings?</div>
+            <AutoTextarea name="stratDesignRole" placeholder="e.g., Point of view, narrative driver, creative authority" value={form.stratDesignRole!} onChange={set} />
+          </div>
+        </div>
+
         <Field label="When the client pushes scope or timelines, we:" name="clientPushResponse" placeholder="e.g., Agree to discuss offline" value={form.clientPushResponse!} onChange={set} />
         <Field label="How we disagree in front of a client:" name="clientDisagreement" placeholder="e.g., We don't. We park it and align offline." value={form.clientDisagreement!} onChange={set} />
 
