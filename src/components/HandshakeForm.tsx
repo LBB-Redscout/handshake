@@ -355,7 +355,6 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <SectionHeader title="What Great Looks Like" aiKey="greatLooks" field="clientsExperience" />
         <Field label="For clients" name="clientsExperience" placeholder="e.g., Clear direction, no surprises, momentum they can feel" value={form.clientsExperience!} onChange={set} />
         <Field label="For the team" name="teamExperience" placeholder="e.g., They know what's expected and when" value={form.teamExperience!} onChange={set} />
-        <Field label="For the Executive Sponsor" name="esExperience" placeholder="e.g., They know what is expected from them and when" value={form.esExperience!} onChange={set} />
         <Field label="The one thing we cannot let slip on this account" name="nonNegotiable" placeholder="e.g., What's the non-negotiable?" value={form.nonNegotiable!} onChange={set} />
         <Field label="The early warning signs that this account is in trouble:" name="earlyWarning" placeholder="Early warning signs include..." value={form.earlyWarning!} onChange={set} />
 
