@@ -7,7 +7,7 @@ import { signOut } from 'next-auth/react'
 type HandshakeData = {
   accountName?: string; date?: string; duoPartnerEmail?: string; executiveSponsor?: string
   accountAmbition?: string; commitment1?: string; commitment2?: string; commitment3?: string
-  esRole?: string; esInvolvement?: string; esComments?: string; clientsExperience?: string; teamExperience?: string
+  esRole?: string; esInvolvement?: string; esComments?: string; esMeetings?: string; esRoles?: string; esRoleOther?: string; clientsExperience?: string; teamExperience?: string
   esExperience?: string; nonNegotiable?: string; decisionsJoint?: string; tensionAreas?: string
   csRole?: string; stratDesignRole?: string; clientPushResponse?: string; clientDisagreement?: string
   csEnergy?: string; stratDesignEnergy?: string; csFeedback?: string; stratDesignFeedback?: string
@@ -25,12 +25,12 @@ type Props = {
 
 const inputStyle: React.CSSProperties = {
   width: '100%', border: 'none', borderBottom: '1px solid #ccc', outline: 'none',
-  fontSize: 13, fontFamily: 'Arial, sans-serif', padding: '6px 0', resize: 'none',
+  fontSize: 12, fontFamily: 'Arial, sans-serif', padding: '6px 0', resize: 'none',
   overflow: 'hidden', lineHeight: 1.6, background: 'transparent',
 }
 
 const labelStyle: React.CSSProperties = {
-  display: 'block', fontSize: 11, fontWeight: 'normal', color: '#333', marginBottom: 4, marginTop: 16,
+  display: 'block', fontSize: 13, fontWeight: 500, color: '#1a1a18', marginBottom: 4, marginTop: 16,
 }
 
 const sectionTitleStyle: React.CSSProperties = {
@@ -120,6 +120,9 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
     esRole: initialData?.esRole || '',
     esInvolvement: initialData?.esInvolvement || '',
     esComments: initialData?.esComments || '',
+    esMeetings: initialData?.esMeetings || '[]',
+    esRoles: initialData?.esRoles || '[]',
+    esRoleOther: initialData?.esRoleOther || '',
     clientsExperience: initialData?.clientsExperience || '',
     teamExperience: initialData?.teamExperience || '',
     esExperience: initialData?.esExperience || '',
@@ -295,6 +298,56 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <SectionHeader title="Working with the Executive Sponsor" aiKey="esSponsor" field="esRole" />
         <Field label="What is the ES's role on this account?" name="esRole" placeholder="e.g., Builds senior relationships and unlocks growth; does not redirect strategy or execution" value={form.esRole!} onChange={set} />
         <Field label="How will we keep them informed and involved?" name="esInvolvement" placeholder="e.g., Bi-weekly sync, recap after key client calls, attends Kickoff + Midpoint" value={form.esInvolvement!} onChange={set} />
+
+        <div style={{ marginTop: 20 }}>
+          <label style={labelStyle}>Which meetings will the ES attend?</label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+            {['Weekly status', 'Client status', 'Review meetings', 'Presentations', 'Feedback calls'].map(meeting => {
+              const selected: string[] = (() => { try { return JSON.parse(form.esMeetings || '[]') } catch { return [] } })()
+              const checked = selected.includes(meeting)
+              return (
+                <label key={meeting} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 13 }}>
+                  <input type="checkbox" checked={checked} onChange={() => {
+                    const next = checked ? selected.filter(m => m !== meeting) : [...selected, meeting]
+                    set('esMeetings', JSON.stringify(next))
+                  }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, cursor: 'pointer' }} />
+                  {meeting}
+                </label>
+              )
+            })}
+          </div>
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <label style={labelStyle}>What role does the ES play in those meetings?</label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
+            {[
+              { value: 'Observer', desc: 'stays informed, reads the room' },
+              { value: 'Presenter', desc: 'takes the lead on specific content' },
+              { value: 'Connector', desc: 'opens doors, makes introductions' },
+              { value: 'Validator', desc: 'lends seniority and credibility to the work' },
+            ].map(({ value, desc }) => {
+              const selected: string[] = (() => { try { return JSON.parse(form.esRoles || '[]') } catch { return [] } })()
+              const checked = selected.includes(value)
+              return (
+                <label key={value} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer' }}>
+                  <input type="checkbox" checked={checked} onChange={() => {
+                    const next = checked ? selected.filter(r => r !== value) : [...selected, value]
+                    set('esRoles', JSON.stringify(next))
+                  }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, marginTop: 2, cursor: 'pointer' }} />
+                  <span style={{ fontSize: 13 }}>
+                    <strong>{value}</strong> <span style={{ color: '#888', fontSize: 12 }}>— {desc}</span>
+                  </span>
+                </label>
+              )
+            })}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 13, flexShrink: 0, color: '#555' }}>Other:</span>
+              <input type="text" value={form.esRoleOther || ''} onChange={e => set('esRoleOther', e.target.value)} placeholder="Describe..." style={{ ...inputStyle, fontSize: 13 }} />
+            </div>
+          </div>
+        </div>
+
         <Field label="Any additional Executive Sponsor comments from Duo review (optional)" name="esComments" placeholder="ES notes and sign-off comments..." value={(form as any).esComments || ''} onChange={set} />
 
         <div style={dividerStyle} />
