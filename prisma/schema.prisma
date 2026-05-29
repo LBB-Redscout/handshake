@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                  String       @id @default(cuid())
+  name                String?
+  email               String?      @unique
+  emailVerified       DateTime?
+  image               String?
+  role                String       @default("duo")
+  accounts            Account[]
+  sessions            Session[]
+  plans               Plan[]
+  handshakesCreated   Handshake[]  @relation("HandshakeCreator")
+  handshakesAsPartner Handshake[]  @relation("HandshakePartner")
+  handshakeHistory    HandshakeHistory[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+model Plan {
+  id            String        @id @default(cuid())
+  accountName   String        @default("")
+  duo           String        @default("")
+  quarter       String        @default("")
+  ambition      String        @default("")
+  stratCommit   String        @default("")
+  csCommit      String        @default("")
+  whiteWhale    String        @default("")
+  unidentified  String        @default("[]")
+  lastUpdated   String        @default("")
+  nextReview    String        @default("")
+  checks        String        @default("{}")
+  customActions String        @default("[]")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  opportunities Opportunity[]
+}
+
+model HandshakeHistory {
+  id            String    @id @default(cuid())
+  handshakeId   String
+  handshake     Handshake @relation(fields: [handshakeId], references: [id], onDelete: Cascade)
+  userId        String?
+  user          User?     @relation(fields: [userId], references: [id])
+  action        String
+  note          String?
+  createdAt     DateTime  @default(now())
+}
+
+model Handshake {
+  id                   String    @id @default(cuid())
+  accountName          String    @default("")
+  date                 String    @default("")
+  duoCreatorId         String
+  duoPartnerId         String?
+  executiveSponsor     String    @default("")
+  accountAmbition      String    @default("") @db.Text
+  commitment1          String    @default("") @db.Text
+  commitment2          String    @default("") @db.Text
+  commitment3          String    @default("") @db.Text
+  esRole               String    @default("") @db.Text
+  esInvolvement        String    @default("") @db.Text
+  esComments           String    @default("") @db.Text
+  clientsExperience    String    @default("") @db.Text
+  teamExperience       String    @default("") @db.Text
+  esExperience         String    @default("") @db.Text
+  nonNegotiable        String    @default("") @db.Text
+  decisionsJoint       String    @default("") @db.Text
+  tensionAreas         String    @default("") @db.Text
+  csRole               String    @default("") @db.Text
+  stratDesignRole      String    @default("") @db.Text
+  clientPushResponse   String    @default("") @db.Text
+  clientDisagreement   String    @default("") @db.Text
+  csEnergy             String    @default("") @db.Text
+  stratDesignEnergy    String    @default("") @db.Text
+  csFeedback           String    @default("") @db.Text
+  stratDesignFeedback  String    @default("") @db.Text
+  csWhenHard           String    @default("") @db.Text
+  stratDesignWhenHard  String    @default("") @db.Text
+  duoSyncTrigger       String    @default("") @db.Text
+  esTrigger            String    @default("") @db.Text
+  earlyWarning         String    @default("") @db.Text
+  growthOpportunity    String    @default("") @db.Text
+  growthCadence        String    @default("") @db.Text
+  status               String    @default("draft")
+  creatorSignedAt      DateTime?
+  partnerSignedAt      DateTime?
+  history              HandshakeHistory[]
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  duoCreator           User      @relation("HandshakeCreator", fields: [duoCreatorId], references: [id], onDelete: Cascade)
+  duoPartner           User?     @relation("HandshakePartner", fields: [duoPartnerId], references: [id])
+}
+
+model Opportunity {
+  id       String @id @default(cuid())
+  planId   String
+  name     String @default("")
+  revenue  Int    @default(0)
+  prob     String @default("possible")
+  killRisk String @default("")
+  actions  String @default("[]")
+  order    Int    @default(0)
+  plan     Plan   @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
