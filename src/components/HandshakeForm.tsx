@@ -290,7 +290,7 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
           </div>
         </div>
 
-        <div style={{ marginTop: 24, padding: '12px 16px', background: '#f8f8f8', border: '0.5px solid #e0e0e0', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ marginTop: 24, padding: '12px 16px', background: '#eef4fc', border: '0.5px solid #378ADD', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ fontSize: 12, color: '#555', flex: 1 }}>
             <span style={{ fontWeight: 600 }}>Upload SOW</span> <span style={{ color: '#999' }}>(optional — AI will use it to help draft sections)</span>
             {sowText && <span style={{ color: '#2a7a2a', marginLeft: 8 }}>✓ SOW loaded</span>}
