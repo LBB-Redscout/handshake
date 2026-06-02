@@ -101,6 +101,8 @@ model Handshake {
   esInvolvement        String    @default("") @db.Text
   esComments           String    @default("") @db.Text
   esMeetings           String    @default("[]")
+  esConnectionMethods  String    @default("[]")
+  esGrowthReview       String    @default("") @db.Text
   esRoles              String    @default("[]")
   esRoleOther          String    @default("")
   feedbackDuoRealtime      String    @default("") @db.Text

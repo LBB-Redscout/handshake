@@ -7,7 +7,7 @@ import { signOut } from 'next-auth/react'
 type HandshakeData = {
   accountName?: string; date?: string; duoPartnerEmail?: string; executiveSponsor?: string
   accountAmbition?: string; commitment1?: string; commitment2?: string; commitment3?: string
-  esRole?: string; esInvolvement?: string; esComments?: string; esMeetings?: string; esRoles?: string; esRoleOther?: string; clientsExperience?: string; teamExperience?: string
+  esRole?: string; esInvolvement?: string; esComments?: string; esMeetings?: string; esConnectionMethods?: string; esGrowthReview?: string; esRoles?: string; esRoleOther?: string; clientsExperience?: string; teamExperience?: string
   esExperience?: string; nonNegotiable?: string; decisionsJoint?: string; tensionAreas?: string
   csRole?: string; stratDesignRole?: string; clientPushResponse?: string; clientDisagreement?: string
   csEnergy?: string; stratDesignEnergy?: string; csFeedback?: string; stratDesignFeedback?: string
@@ -127,6 +127,8 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
     esInvolvement: initialData?.esInvolvement || '',
     esComments: initialData?.esComments || '',
     esMeetings: initialData?.esMeetings || '[]',
+    esConnectionMethods: initialData?.esConnectionMethods || '[]',
+    esGrowthReview: initialData?.esGrowthReview || '',
     esRoles: initialData?.esRoles || '[]',
     esRoleOther: initialData?.esRoleOther || '',
     clientsExperience: initialData?.clientsExperience || '',
@@ -319,10 +321,31 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <div style={dividerStyle} />
         <SectionHeader title="Working with the Executive Sponsor" aiKey="esSponsor" field="esRole" />
         <Field label="What is the ES's role on this account?" name="esRole" placeholder="e.g., Builds senior relationships and unlocks growth; does not redirect strategy or execution" value={form.esRole!} onChange={set} />
-        <Field label="How will we keep the ES informed and involved?" name="esInvolvement" placeholder="e.g., Bi-weekly sync, recap after key client calls, attends Kickoff + Midpoint" value={form.esInvolvement!} onChange={set} />
 
         <div style={{ marginTop: 20 }}>
-          <label style={labelStyle}>Which meetings will the ES attend?</label>
+          <label style={labelStyle}>How will the Duo and ES stay connected?</label>
+          <div style={{ fontSize: 11, color: '#888', marginBottom: 8, fontStyle: 'italic' }}>Trio meetings (Duo + ES) should be no more than bi-weekly.</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {['Bi-weekly trio meeting (Duo + ES)', 'Recap after key client calls', 'Ad hoc as needed'].map(method => {
+              const selected: string[] = (() => { try { return JSON.parse(form.esConnectionMethods || '[]') } catch { return [] } })()
+              const checked = selected.includes(method)
+              return (
+                <label key={method} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 13 }}>
+                  <input type="checkbox" checked={checked} onChange={() => {
+                    const next = checked ? selected.filter(m => m !== method) : [...selected, method]
+                    set('esConnectionMethods', JSON.stringify(next))
+                  }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, cursor: 'pointer' }} />
+                  {method}
+                </label>
+              )
+            })}
+          </div>
+        </div>
+
+        <Field label="How will we review the organic growth plan together?" name="esGrowthReview" placeholder="e.g., As a standing item in every trio meeting / At key project milestones..." value={form.esGrowthReview!} onChange={set} />
+
+        <div style={{ marginTop: 20 }}>
+          <label style={labelStyle}>Which client meetings will the ES attend?</label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
             {['Weekly status', 'Client status', 'Review meetings', 'Presentations', 'Feedback calls'].map(meeting => {
               const selected: string[] = (() => { try { return JSON.parse(form.esMeetings || '[]') } catch { return [] } })()
@@ -372,6 +395,11 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
 
         <Field label="We escalate to the Executive Sponsor when:" name="esTrigger" placeholder="e.g., Client confidence is at risk / Scope has expanded beyond what we can absorb" value={form.esTrigger!} onChange={set} />
         <Field label="Any additional Executive Sponsor comments from Duo review (optional)" name="esComments" placeholder="ES notes and sign-off comments..." value={(form as any).esComments || ''} onChange={set} />
+
+        <div style={dividerStyle} />
+        <SectionHeader title="Growth Accountability" aiKey="growth" field="growthOpportunity" />
+        <Field label="The most likely expansion opportunity on this account right now:" name="growthOpportunity" placeholder="The most likely expansion opportunity is..." value={form.growthOpportunity!} onChange={set} />
+        <Field label="How we'll make sure growth doesn't get buried under delivery:" name="growthCadence" placeholder="e.g., It's a standing agenda item in our weekly Duo check-in" value={form.growthCadence!} onChange={set} />
 
         <div style={dividerStyle} />
         <SectionHeader title="What Great Looks Like" aiKey="greatLooks" field="clientsExperience" />
@@ -474,11 +502,6 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
           <Field label="Who can call that meeting, and how do we make sure it happens?" name="feedbackOffMeeting" placeholder="e.g., Either Duo member or any team member — we commit to doing it within a week..." value={form.feedbackOffMeeting!} onChange={set} />
           <Field label="How will changes to the Handshake be communicated back to the team?" name="feedbackOffCommunicate" placeholder="e.g., We share an updated version in the team channel and walk through what changed..." value={form.feedbackOffCommunicate!} onChange={set} />
         </div>
-
-        <div style={dividerStyle} />
-        <SectionHeader title="Growth Accountability" aiKey="growth" field="growthOpportunity" />
-        <Field label="The most likely expansion opportunity on this account right now:" name="growthOpportunity" placeholder="The most likely expansion opportunity is..." value={form.growthOpportunity!} onChange={set} />
-        <Field label="How we'll make sure growth doesn't get buried under delivery:" name="growthCadence" placeholder="e.g., It's a standing agenda item in our weekly Duo check-in" value={form.growthCadence!} onChange={set} />
 
         <div style={{ marginTop: 48, paddingTop: 24, borderTop: '1px solid #e0e0e0', display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
           <button type="button" onClick={() => router.back()} style={{ background: 'none', border: '1px solid #ccc', padding: '10px 20px', fontSize: 13, cursor: 'pointer', color: '#555' }}>Cancel</button>

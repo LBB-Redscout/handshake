@@ -158,8 +158,33 @@ export default async function HandshakeViewPage({ params }: { params: { id: stri
       </Section>
       <Section title="Working with the Executive Sponsor">
         <Row label="What is the ES's role on this account?" value={h.esRole} />
-        <Row label="How will we keep them informed and involved?" value={h.esInvolvement} />
+        {(h as any).esConnectionMethods && JSON.parse((h as any).esConnectionMethods || '[]').length > 0 && (
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 11, color: '#888', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>How the Duo and ES stay connected</div>
+            <div style={{ fontSize: 14, color: '#1a1a18', lineHeight: 1.7 }}>{JSON.parse((h as any).esConnectionMethods).join(', ')}</div>
+          </div>
+        )}
+        <Row label="How will we review the organic growth plan together?" value={(h as any).esGrowthReview} />
+        {(h as any).esMeetings && JSON.parse((h as any).esMeetings || '[]').length > 0 && (
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 11, color: '#888', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Client meetings the ES will attend</div>
+            <div style={{ fontSize: 14, color: '#1a1a18', lineHeight: 1.7 }}>{JSON.parse((h as any).esMeetings).join(', ')}</div>
+          </div>
+        )}
+        {(h as any).esRoles && JSON.parse((h as any).esRoles || '[]').length > 0 && (
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 11, color: '#888', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>ES role in those meetings</div>
+            <div style={{ fontSize: 14, color: '#1a1a18', lineHeight: 1.7 }}>
+              {JSON.parse((h as any).esRoles).join(', ')}{(h as any).esRoleOther ? `, ${(h as any).esRoleOther}` : ''}
+            </div>
+          </div>
+        )}
+        <Row label="We escalate to the Executive Sponsor when:" value={h.esTrigger} />
         <Row label="Executive Sponsor comments" value={(h as any).esComments} />
+      </Section>
+      <Section title="Growth Accountability">
+        <Row label="The most likely expansion opportunity on this account right now:" value={h.growthOpportunity} />
+        <Row label="How we'll make sure growth doesn't get buried under delivery:" value={h.growthCadence} />
       </Section>
       <Section title="What Great Looks Like">
         <Row label="For clients" value={h.clientsExperience} />
@@ -207,10 +232,6 @@ export default async function HandshakeViewPage({ params }: { params: { id: stri
         <Row label="What's the trigger for revisiting this Handshake mid-project?" value={(h as any).feedbackOffTrigger} />
         <Row label="Who can call that meeting, and how do we make sure it happens?" value={(h as any).feedbackOffMeeting} />
         <Row label="How will changes to the Handshake be communicated back to the team?" value={(h as any).feedbackOffCommunicate} />
-      </Section>
-      <Section title="Growth Accountability">
-        <Row label="The most likely expansion opportunity on this account right now:" value={h.growthOpportunity} />
-        <Row label="How we'll make sure growth doesn't get buried under delivery:" value={h.growthCadence} />
       </Section>
 
       <div style={{ marginTop: 48, paddingTop: 28, borderTop: '1px solid #e0e0e0' }}>
