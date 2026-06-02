@@ -11,8 +11,14 @@ type HandshakeData = {
   esExperience?: string; nonNegotiable?: string; decisionsJoint?: string; tensionAreas?: string
   csRole?: string; stratDesignRole?: string; clientPushResponse?: string; clientDisagreement?: string
   csEnergy?: string; stratDesignEnergy?: string; csFeedback?: string; stratDesignFeedback?: string
-  csWhenHard?: string; stratDesignWhenHard?: string; duoSyncTrigger?: string; esTrigger?: string
+  csWhenHard?: string; stratDesignWhenHard?: string; esTrigger?: string
   earlyWarning?: string; growthOpportunity?: string; growthCadence?: string
+  feedbackDuoRealtime?: string; feedbackDuoCheckin?: string; feedbackDuoDisagreement?: string
+  feedbackTeamRaise?: string; feedbackTeamReceive?: string; feedbackTeamLoop?: string
+  feedbackToTeamFreq?: string; feedbackToTeamBalance?: string; feedbackToTeamRetros?: string
+  feedbackEsReceive?: string; feedbackEsGive?: string; feedbackEsEscalation?: string
+  feedbackClientSurface?: string; feedbackClientGive?: string
+  feedbackOffTrigger?: string; feedbackOffMeeting?: string; feedbackOffCommunicate?: string
 }
 
 type HistoryEntry = { id: string; action: string; note: string | null; createdAt: string; user?: { name?: string | null; email?: string | null } | null }
@@ -139,11 +145,27 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
     stratDesignFeedback: initialData?.stratDesignFeedback || '',
     csWhenHard: initialData?.csWhenHard || '',
     stratDesignWhenHard: initialData?.stratDesignWhenHard || '',
-    duoSyncTrigger: initialData?.duoSyncTrigger || '',
     esTrigger: initialData?.esTrigger || '',
     earlyWarning: initialData?.earlyWarning || '',
     growthOpportunity: initialData?.growthOpportunity || '',
     growthCadence: initialData?.growthCadence || '',
+    feedbackDuoRealtime: initialData?.feedbackDuoRealtime || '',
+    feedbackDuoCheckin: initialData?.feedbackDuoCheckin || '',
+    feedbackDuoDisagreement: initialData?.feedbackDuoDisagreement || '',
+    feedbackTeamRaise: initialData?.feedbackTeamRaise || '',
+    feedbackTeamReceive: initialData?.feedbackTeamReceive || '',
+    feedbackTeamLoop: initialData?.feedbackTeamLoop || '',
+    feedbackToTeamFreq: initialData?.feedbackToTeamFreq || '',
+    feedbackToTeamBalance: initialData?.feedbackToTeamBalance || '',
+    feedbackToTeamRetros: initialData?.feedbackToTeamRetros || '',
+    feedbackEsReceive: initialData?.feedbackEsReceive || '',
+    feedbackEsGive: initialData?.feedbackEsGive || '',
+    feedbackEsEscalation: initialData?.feedbackEsEscalation || '',
+    feedbackClientSurface: initialData?.feedbackClientSurface || '',
+    feedbackClientGive: initialData?.feedbackClientGive || '',
+    feedbackOffTrigger: initialData?.feedbackOffTrigger || '',
+    feedbackOffMeeting: initialData?.feedbackOffMeeting || '',
+    feedbackOffCommunicate: initialData?.feedbackOffCommunicate || '',
   })
 
   const set = (name: string, val: string) => setForm(prev => ({ ...prev, [name]: val }))
@@ -363,7 +385,6 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <SectionHeader title="Decision Rights" aiKey="decisions" field="decisionsJoint" />
         <Field label="What decisions require both of us in the room?" name="decisionsJoint" placeholder="Both of us need to be present for..." value={form.decisionsJoint!} onChange={set} />
         <Field label="Where do we expect tension and how will we handle it?" name="tensionAreas" placeholder="e.g., Design ambition vs. scope reality / Client pressure vs. craft integrity" value={form.tensionAreas!} onChange={set} />
-        <Field label="We call an emergency Duo sync when:" name="duoSyncTrigger" placeholder="e.g., One of us hears something from the client the other doesn't know" value={form.duoSyncTrigger!} onChange={set} />
 
         <div style={dividerStyle} />
         <SectionHeader title="How We Show Up for the Client" aiKey="showUp" field="csRole" />
@@ -397,7 +418,6 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
 
         {[
           { question: 'What gives you energy vs. drains you fastest?', left: 'csEnergy', right: 'stratDesignEnergy', placeholder: 'Energy: ... / Drain: ...' },
-          { question: 'How do you like to receive feedback?', left: 'csFeedback', right: 'stratDesignFeedback', placeholder: 'I receive feedback best when...' },
           { question: 'What do you need from your Duo partner when things get hard?', left: 'csWhenHard', right: 'stratDesignWhenHard', placeholder: 'When things get hard, I need...' },
         ].map(({ question, left, right, placeholder }) => (
           <div key={left} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 32px', marginTop: 20 }}>
@@ -411,6 +431,49 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
             </div>
           </div>
         ))}
+
+        <div style={dividerStyle} />
+        <div style={{ marginTop: 36, marginBottom: 4 }}>
+          <div style={sectionTitleStyle}>Feedback on this Account</div>
+          <p style={{ fontSize: 12, color: '#555', fontStyle: 'italic', lineHeight: 1.6, marginTop: 8, marginBottom: 24 }}>
+            The Handshake is a shared, visible commitment to how this account will be run. When something feels off, anyone on the team can use it as the reference point. Be specific — the team will look here when they need a baseline for what was agreed to.
+          </p>
+
+          {/* Sub-section 1 */}
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, paddingBottom: 6, borderBottom: '0.5px solid #e0e0e0' }}>Between the Duo</div>
+          <Field label="How will we give each other feedback in real time?" name="feedbackDuoRealtime" placeholder="e.g., We say it in the moment, not after the meeting..." value={form.feedbackDuoRealtime!} onChange={set} />
+          <Field label="How often will we check in with each other, separate from work reviews?" name="feedbackDuoCheckin" placeholder="e.g., Weekly 30-min Duo sync, not tied to deliverables..." value={form.feedbackDuoCheckin!} onChange={set} />
+          <Field label="What's our agreement when we disagree on direction, decisions, or how to show up?" name="feedbackDuoDisagreement" placeholder="e.g., We align privately before presenting any direction..." value={form.feedbackDuoDisagreement!} onChange={set} />
+
+          {/* Sub-section 2 */}
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 28, marginBottom: 12, paddingBottom: 6, borderBottom: '0.5px solid #e0e0e0' }}>From the Team to the Duo</div>
+          <Field label="How can anyone on the team raise concerns to us — to either of us individually, to both of us together?" name="feedbackTeamRaise" placeholder="e.g., Direct message to either of us, or flag it in our weekly team sync..." value={form.feedbackTeamRaise!} onChange={set} />
+          <Field label="What's our commitment to receiving feedback without defensiveness?" name="feedbackTeamReceive" placeholder="e.g., We listen first, ask questions before we respond..." value={form.feedbackTeamReceive!} onChange={set} />
+          <Field label="How will we close the loop when something is raised?" name="feedbackTeamLoop" placeholder="e.g., We respond within 48 hours and share what we're doing about it..." value={form.feedbackTeamLoop!} onChange={set} />
+
+          {/* Sub-section 3 */}
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 28, marginBottom: 12, paddingBottom: 6, borderBottom: '0.5px solid #e0e0e0' }}>From the Duo to the Team</div>
+          <Field label="How often will we give direct feedback to each team member, beyond what comes up in the work itself?" name="feedbackToTeamFreq" placeholder="e.g., Bi-weekly 1:1s with each person on the team..." value={form.feedbackToTeamFreq!} onChange={set} />
+          <Field label="How will we balance reinforcement and redirection?" name="feedbackToTeamBalance" placeholder="e.g., We name what's strong before we redirect..." value={form.feedbackToTeamBalance!} onChange={set} />
+          <Field label="When and how will we run retros?" name="feedbackToTeamRetros" placeholder="e.g., End of each phase, 60 min with the full team..." value={form.feedbackToTeamRetros!} onChange={set} />
+
+          {/* Sub-section 4 */}
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 28, marginBottom: 12, paddingBottom: 6, borderBottom: '0.5px solid #e0e0e0' }}>With the Executive Sponsor</div>
+          <Field label="How does the ES give us feedback, and on what cadence?" name="feedbackEsReceive" placeholder="e.g., Monthly 1:1 with each Duo member, standing agenda..." value={form.feedbackEsReceive!} onChange={set} />
+          <Field label="How do we give the ES feedback when their involvement isn't working as we'd hoped?" name="feedbackEsGive" placeholder="e.g., We raise it directly in our next 1:1, not in front of the team..." value={form.feedbackEsGive!} onChange={set} />
+          <Field label="What triggers an escalation if ES involvement is causing more friction than help?" name="feedbackEsEscalation" placeholder="e.g., If it happens twice, we bring it to the Head of..." value={form.feedbackEsEscalation!} onChange={set} />
+
+          {/* Sub-section 5 */}
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 28, marginBottom: 12, paddingBottom: 6, borderBottom: '0.5px solid #e0e0e0' }}>With the Client</div>
+          <Field label="How will we surface concerns from the client team back to us before they become formal escalations?" name="feedbackClientSurface" placeholder="e.g., We ask directly in every 2:1 check-in..." value={form.feedbackClientSurface!} onChange={set} />
+          <Field label="How will we give the client feedback when it's needed — about scope, expectations, or how they're showing up to the work?" name="feedbackClientGive" placeholder="e.g., We name it directly in the moment, with context and a path forward..." value={form.feedbackClientGive!} onChange={set} />
+
+          {/* Sub-section 6 */}
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 28, marginBottom: 12, paddingBottom: 6, borderBottom: '0.5px solid #e0e0e0' }}>When Something Feels Off</div>
+          <Field label="What's the trigger for revisiting this Handshake mid-project?" name="feedbackOffTrigger" placeholder="e.g., One of us names it, or the team flags something twice..." value={form.feedbackOffTrigger!} onChange={set} />
+          <Field label="Who can call that meeting, and how do we make sure it happens?" name="feedbackOffMeeting" placeholder="e.g., Either Duo member or any team member — we commit to doing it within a week..." value={form.feedbackOffMeeting!} onChange={set} />
+          <Field label="How will changes to the Handshake be communicated back to the team?" name="feedbackOffCommunicate" placeholder="e.g., We share an updated version in the team channel and walk through what changed..." value={form.feedbackOffCommunicate!} onChange={set} />
+        </div>
 
         <div style={dividerStyle} />
         <SectionHeader title="Growth Accountability" aiKey="growth" field="growthOpportunity" />

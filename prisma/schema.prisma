@@ -103,6 +103,23 @@ model Handshake {
   esMeetings           String    @default("[]")
   esRoles              String    @default("[]")
   esRoleOther          String    @default("")
+  feedbackDuoRealtime      String    @default("") @db.Text
+  feedbackDuoCheckin       String    @default("") @db.Text
+  feedbackDuoDisagreement  String    @default("") @db.Text
+  feedbackTeamRaise        String    @default("") @db.Text
+  feedbackTeamReceive      String    @default("") @db.Text
+  feedbackTeamLoop         String    @default("") @db.Text
+  feedbackToTeamFreq       String    @default("") @db.Text
+  feedbackToTeamBalance    String    @default("") @db.Text
+  feedbackToTeamRetros     String    @default("") @db.Text
+  feedbackEsReceive        String    @default("") @db.Text
+  feedbackEsGive           String    @default("") @db.Text
+  feedbackEsEscalation     String    @default("") @db.Text
+  feedbackClientSurface    String    @default("") @db.Text
+  feedbackClientGive       String    @default("") @db.Text
+  feedbackOffTrigger       String    @default("") @db.Text
+  feedbackOffMeeting       String    @default("") @db.Text
+  feedbackOffCommunicate   String    @default("") @db.Text
   clientsExperience    String    @default("") @db.Text
   teamExperience       String    @default("") @db.Text
   esExperience         String    @default("") @db.Text

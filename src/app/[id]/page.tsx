@@ -180,15 +180,33 @@ export default async function HandshakeViewPage({ params }: { params: { id: stri
       <Section title="How We Work Together" subtitle="Understanding each other's working styles">
         <Row label="What gives you energy vs. drains you fastest? (CS)" value={h.csEnergy} />
         <Row label="What gives you energy vs. drains you fastest? (Strategy/Design)" value={h.stratDesignEnergy} />
-        <Row label="How do you like to receive feedback? (CS)" value={h.csFeedback} />
-        <Row label="How do you like to receive feedback? (Strategy/Design)" value={h.stratDesignFeedback} />
         <Row label="What do you need from your Duo partner when things get hard? (CS)" value={h.csWhenHard} />
         <Row label="What do you need from your Duo partner when things get hard? (Strategy/Design)" value={h.stratDesignWhenHard} />
       </Section>
-      <Section title="Escalation Rules">
-        <Row label="We call an emergency Duo sync when:" value={h.duoSyncTrigger} />
-        <Row label="We escalate to the Executive Sponsor when:" value={h.esTrigger} />
-        <Row label="The early warning signs that this account is in trouble:" value={h.earlyWarning} />
+      <Section title="Feedback on this Account" subtitle="The Handshake is a shared, visible commitment to how this account will be run. When something feels off, anyone on the team can use it as the reference point.">
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, marginTop: 8, paddingBottom: 6, borderBottom: '1px solid #e0e0e0' }}>Between the Duo</div>
+        <Row label="How will we give each other feedback in real time?" value={(h as any).feedbackDuoRealtime} />
+        <Row label="How often will we check in with each other, separate from work reviews?" value={(h as any).feedbackDuoCheckin} />
+        <Row label="What's our agreement when we disagree on direction, decisions, or how to show up?" value={(h as any).feedbackDuoDisagreement} />
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, marginTop: 24, paddingBottom: 6, borderBottom: '1px solid #e0e0e0' }}>From the Team to the Duo</div>
+        <Row label="How can anyone on the team raise concerns to us?" value={(h as any).feedbackTeamRaise} />
+        <Row label="What's our commitment to receiving feedback without defensiveness?" value={(h as any).feedbackTeamReceive} />
+        <Row label="How will we close the loop when something is raised?" value={(h as any).feedbackTeamLoop} />
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, marginTop: 24, paddingBottom: 6, borderBottom: '1px solid #e0e0e0' }}>From the Duo to the Team</div>
+        <Row label="How often will we give direct feedback to each team member?" value={(h as any).feedbackToTeamFreq} />
+        <Row label="How will we balance reinforcement and redirection?" value={(h as any).feedbackToTeamBalance} />
+        <Row label="When and how will we run retros?" value={(h as any).feedbackToTeamRetros} />
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, marginTop: 24, paddingBottom: 6, borderBottom: '1px solid #e0e0e0' }}>With the Executive Sponsor</div>
+        <Row label="How does the ES give us feedback, and on what cadence?" value={(h as any).feedbackEsReceive} />
+        <Row label="How do we give the ES feedback when their involvement isn't working?" value={(h as any).feedbackEsGive} />
+        <Row label="What triggers an escalation if ES involvement is causing more friction than help?" value={(h as any).feedbackEsEscalation} />
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, marginTop: 24, paddingBottom: 6, borderBottom: '1px solid #e0e0e0' }}>With the Client</div>
+        <Row label="How will we surface concerns from the client team back to us?" value={(h as any).feedbackClientSurface} />
+        <Row label="How will we give the client feedback when it's needed?" value={(h as any).feedbackClientGive} />
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#1a1a18', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, marginTop: 24, paddingBottom: 6, borderBottom: '1px solid #e0e0e0' }}>When Something Feels Off</div>
+        <Row label="What's the trigger for revisiting this Handshake mid-project?" value={(h as any).feedbackOffTrigger} />
+        <Row label="Who can call that meeting, and how do we make sure it happens?" value={(h as any).feedbackOffMeeting} />
+        <Row label="How will changes to the Handshake be communicated back to the team?" value={(h as any).feedbackOffCommunicate} />
       </Section>
       <Section title="Growth Accountability">
         <Row label="The most likely expansion opportunity on this account right now:" value={h.growthOpportunity} />
