@@ -23,10 +23,10 @@ export default async function HandshakeDashboard() {
 
   const sidebar = (
     <aside style={{ width: 220, flexShrink: 0, background: '#ffffff', borderRight: '0.5px solid rgba(0,0,0,0.12)', padding: '1.25rem 1rem', display: 'flex', flexDirection: 'column', gap: '1rem', position: 'sticky', top: 0, height: '100vh', overflowY: 'auto', fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif' }}>
-      <div style={{ fontSize: 11, fontWeight: 700, color: '#6b6b68', letterSpacing: '0.08em', textTransform: 'uppercase', paddingBottom: '1rem', borderBottom: '0.5px solid rgba(0,0,0,0.12)' }}>Redscout</div>
-      <div>
+      <div style={{ fontSize: 11, fontWeight: 700, color: '#ffffff', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '1.25rem 1rem', margin: '-1.25rem -1rem 0', background: '#378ADD' }}>Redscout</div>
+      <div style={{ marginTop: '0.5rem' }}>
         <div style={{ fontSize: 11, color: '#6b6b68', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Navigation</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 8, fontSize: 13, color: '#1a1a18', background: '#eef4fc', fontWeight: 500, marginTop: 2 }}>🤝 Duo Handshake</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 8, fontSize: 13, color: '#378ADD', background: '#eef4fc', fontWeight: 500, marginTop: 2 }}>🤝 Duo Handshake</div>
       </div>
       <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '0.5px solid rgba(0,0,0,0.12)' }}>
         <div style={{ fontSize: 12, color: '#6b6b68', marginBottom: 6 }}>{session.user.name}</div>

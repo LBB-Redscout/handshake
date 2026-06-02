@@ -242,10 +242,10 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#ffffff' }}>
       <aside style={{ width: 220, flexShrink: 0, background: '#ffffff', borderRight: '0.5px solid rgba(0,0,0,0.12)', padding: '1.25rem 1rem', display: 'flex', flexDirection: 'column', gap: '1rem', position: 'sticky', top: 0, height: '100vh', overflowY: 'auto', fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: '#6b6b68', letterSpacing: '0.08em', textTransform: 'uppercase', paddingBottom: '1rem', borderBottom: '0.5px solid rgba(0,0,0,0.12)' }}>Redscout</div>
-        <div>
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#ffffff', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '1.25rem 1rem', margin: '-1.25rem -1rem 0', background: '#378ADD' }}>Redscout</div>
+        <div style={{ marginTop: '0.5rem' }}>
           <div style={{ fontSize: 11, color: '#6b6b68', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Navigation</div>
-          <button style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 8, fontSize: 13, cursor: 'pointer', border: 'none', background: '#eef4fc', textAlign: 'left', width: '100%', fontFamily: 'inherit', color: '#1a1a18', fontWeight: 500, marginTop: 2 }} onClick={() => router.push('/')}>🤝 Duo Handshake</button>
+          <button style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 8, fontSize: 13, cursor: 'pointer', border: 'none', background: '#eef4fc', textAlign: 'left', width: '100%', fontFamily: 'inherit', color: '#378ADD', fontWeight: 500, marginTop: 2 }} onClick={() => router.push('/')}>🤝 Duo Handshake</button>
         </div>
         <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '0.5px solid rgba(0,0,0,0.12)' }}>
           <button style={{ fontSize: 12, color: '#6b6b68', border: 'none', background: 'none', cursor: 'pointer', padding: 0, display: 'block', marginBottom: 8 }} onClick={() => router.push('/')}>← All handshakes</button>
