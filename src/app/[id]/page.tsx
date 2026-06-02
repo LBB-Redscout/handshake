@@ -183,7 +183,7 @@ export default async function HandshakeViewPage({ params }: { params: { id: stri
         <Row label="Executive Sponsor comments" value={(h as any).esComments} />
       </Section>
       <Section title="Growth Accountability">
-        <Row label="The most likely expansion opportunity on this account right now:" value={h.growthOpportunity} />
+        <Row label="The white whale — the big thing we're building toward on this account:" value={h.growthOpportunity} />
         <Row label="How we'll make sure growth doesn't get buried under delivery:" value={h.growthCadence} />
       </Section>
       <Section title="What Great Looks Like">

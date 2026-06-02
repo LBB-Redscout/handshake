@@ -398,7 +398,7 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
 
         <div style={dividerStyle} />
         <SectionHeader title="Growth Accountability" aiKey="growth" field="growthOpportunity" />
-        <Field label="The most likely expansion opportunity on this account right now:" name="growthOpportunity" placeholder="The most likely expansion opportunity is..." value={form.growthOpportunity!} onChange={set} />
+        <Field label="The white whale — the big thing we're building toward on this account:" name="growthOpportunity" placeholder="e.g., Become their primary strategic partner / Unlock a dedicated innovation budget..." value={form.growthOpportunity!} onChange={set} />
         <Field label="How we'll make sure growth doesn't get buried under delivery:" name="growthCadence" placeholder="e.g., It's a standing agenda item in our weekly Duo check-in" value={form.growthCadence!} onChange={set} />
 
         <div style={dividerStyle} />
