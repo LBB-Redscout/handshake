@@ -154,13 +154,15 @@ model Handshake {
 }
 
 model Opportunity {
-  id       String @id @default(cuid())
-  planId   String
-  name     String @default("")
-  revenue  Int    @default(0)
-  prob     String @default("possible")
-  killRisk String @default("")
-  actions  String @default("[]")
-  order    Int    @default(0)
-  plan     Plan   @relation(fields: [planId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  planId    String
+  name      String   @default("")
+  buyer     String   @default("")
+  revenue   Int      @default(0)
+  prob      String   @default("possible")
+  killRisk  String   @default("")
+  actions   String   @default("[]")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  plan      Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
 }
