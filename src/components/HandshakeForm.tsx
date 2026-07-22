@@ -376,7 +376,7 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
             {[
               { value: 'Observer', desc: 'stays informed, reads the room' },
               { value: 'Presenter', desc: 'takes the lead on specific content' },
-              { value: 'Connector', desc: 'opens doors, makes introductions' },
+              { value: 'Advocate', desc: 'champions the account internally, protects resources' },
               { value: 'Validator', desc: 'lends seniority and credibility to the work' },
             ].map(({ value, desc }) => {
               const selected: string[] = (() => { try { return JSON.parse(form.esRoles || '[]') } catch { return [] } })()
