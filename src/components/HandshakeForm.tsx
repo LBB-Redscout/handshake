@@ -83,7 +83,6 @@ function Field({ label, name, placeholder, value, onChange }: {
 export default function HandshakeForm({ initialData, mode, history = [] }: Props) {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
-  const [users, setUsers] = useState<{ id: string; name: string | null; email: string | null }[]>([])
   const [aiLoading, setAiLoading] = useState<Record<string, boolean>>({})
   const [sowText, setSowText] = useState('')
   const [sowLoading, setSowLoading] = useState(false)
@@ -110,9 +109,6 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
     reader.readAsDataURL(file)
   }
 
-  useEffect(() => {
-    fetch('/api/users').then(r => r.json()).then(data => { if (Array.isArray(data)) setUsers(data) })
-  }, [])
 
   const [form, setForm] = useState<HandshakeData>({
     accountName: initialData?.accountName || '',
@@ -283,7 +279,18 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
             <label style={labelStyle}>Partner</label>
             <select value={form.duoPartnerEmail || ''} onChange={e => set('duoPartnerEmail', e.target.value)} style={{ ...inputStyle, color: form.duoPartnerEmail ? '#1a1a18' : '#aaa' }}>
               <option value="">Select partner...</option>
-              {users.map(u => <option key={u.id} value={u.email || ''}>{u.name || u.email}</option>)}
+              {[
+                { name: 'Ash Schaffer', email: 'ash@redscout.com' },
+                { name: 'Flora Chan', email: 'flora@redscout.com' },
+                { name: 'Ivan Kayser', email: 'ivan@redscout.com' },
+                { name: 'Jasmeet Gill', email: 'jasmeet.gill@redscout.com' },
+                { name: 'Jessica Manganelli', email: 'jess@redscout.com' },
+                { name: 'Katie Banaszak', email: 'katie.banaszak@redscout.com' },
+                { name: 'LBB', email: 'leah.brierbienstock@redscout.com' },
+                { name: 'Lucie Hajian', email: 'lucie.hajian@redscout.com' },
+                { name: 'Michael Keany', email: 'michael.keany@redscout.com' },
+                { name: 'Ryan Barton', email: 'ryan.barton@redscout.com' },
+              ].map(u => <option key={u.email} value={u.email}>{u.name}</option>)}
             </select>
           </div>
           <div>
