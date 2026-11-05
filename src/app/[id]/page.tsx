@@ -28,6 +28,8 @@ function Section({ title, subtitle, children }: { title: string; subtitle?: stri
   )
 }
 
+const list = (v: any): string[] => { try { return JSON.parse(v || '[]') } catch { return [] } }
+
 export default async function HandshakeViewPage({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions)
   if (!session?.user?.email) redirect('/login')
@@ -102,6 +104,13 @@ export default async function HandshakeViewPage({ params }: { params: { id: stri
               'WORKING WITH THE EXECUTIVE SPONSOR',
               h.esRole ? 'Role: ' + h.esRole : '',
               h.esInvolvement ? 'Involvement: ' + h.esInvolvement : '',
+              list((h as any).esInternalReviews).length ? 'Internal work reviews: ' + list((h as any).esInternalReviews).join(', ') : '',
+              list((h as any).esConnectionMethods).length ? 'Duo and ES stay connected: ' + list((h as any).esConnectionMethods).join(', ') : '',
+              (h as any).esGrowthReview ? 'Growth plan review: ' + (h as any).esGrowthReview : '',
+              [...list((h as any).esInternalRoles), (h as any).esInternalRoleOther].filter(Boolean).length ? 'Internal role: ' + [...list((h as any).esInternalRoles), (h as any).esInternalRoleOther].filter(Boolean).join(', ') : '',
+              (h as any).esClientAttendance ? 'ES in client meetings: ' + (h as any).esClientAttendance : '',
+              list((h as any).esMeetings).length ? 'Client meetings the ES attends: ' + list((h as any).esMeetings).join(', ') : '',
+              [...list((h as any).esRoles), (h as any).esRoleOther].filter(Boolean).length ? 'ES role in those meetings: ' + [...list((h as any).esRoles), (h as any).esRoleOther].filter(Boolean).join(', ') : '',
               h.esTrigger ? 'Escalate to ES when: ' + h.esTrigger : '',
               '',
               'GROWTH ACCOUNTABILITY',
@@ -159,27 +168,41 @@ export default async function HandshakeViewPage({ params }: { params: { id: stri
 
         <Section title="Working with the Executive Sponsor" subtitle="Set the terms of this relationship before you need them.">
           <Row label="What is the ES's role on this account?" value={h.esRole} />
-          {(h as any).esConnectionMethods && JSON.parse((h as any).esConnectionMethods || '[]').length > 0 && (
+          <div style={{ fontSize: 11, fontWeight: 'bold', color: '#378ADD', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 24, marginBottom: 12 }}>Internal</div>
+          {[...list((h as any).esInternalReviews)].filter(Boolean).length > 0 && (
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 11, color: '#888', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 500 }}>Internal work reviews the ES will join</div>
+              <div style={{ fontSize: 13, color: '#1a1a18', lineHeight: 1.7 }}>{[...list((h as any).esInternalReviews)].filter(Boolean).join(', ')}</div>
+            </div>
+          )}
+          {[...list((h as any).esConnectionMethods)].filter(Boolean).length > 0 && (
             <div style={{ marginBottom: 20 }}>
               <div style={{ fontSize: 11, color: '#888', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 500 }}>How the Duo and ES stay connected</div>
-              <div style={{ fontSize: 13, color: '#1a1a18', lineHeight: 1.7 }}>{JSON.parse((h as any).esConnectionMethods).join(', ')}</div>
+              <div style={{ fontSize: 13, color: '#1a1a18', lineHeight: 1.7 }}>{[...list((h as any).esConnectionMethods)].filter(Boolean).join(', ')}</div>
             </div>
           )}
           <Row label="How will we review the organic growth plan together?" value={(h as any).esGrowthReview} />
-          {(h as any).esMeetings && JSON.parse((h as any).esMeetings || '[]').length > 0 && (
+          {[...list((h as any).esInternalRoles), (h as any).esInternalRoleOther].filter(Boolean).length > 0 && (
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 11, color: '#888', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 500 }}>Internal role of the ES</div>
+              <div style={{ fontSize: 13, color: '#1a1a18', lineHeight: 1.7 }}>{[...list((h as any).esInternalRoles), (h as any).esInternalRoleOther].filter(Boolean).join(', ')}</div>
+            </div>
+          )}
+          <div style={{ fontSize: 11, fontWeight: 'bold', color: '#378ADD', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 24, marginBottom: 12 }}>Client-facing</div>
+          <Row label="Will the ES be in client meetings?" value={(h as any).esClientAttendance} />
+          {[...list((h as any).esMeetings)].filter(Boolean).length > 0 && (
             <div style={{ marginBottom: 20 }}>
               <div style={{ fontSize: 11, color: '#888', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 500 }}>Client meetings the ES will attend</div>
-              <div style={{ fontSize: 13, color: '#1a1a18', lineHeight: 1.7 }}>{JSON.parse((h as any).esMeetings).join(', ')}</div>
+              <div style={{ fontSize: 13, color: '#1a1a18', lineHeight: 1.7 }}>{[...list((h as any).esMeetings)].filter(Boolean).join(', ')}</div>
             </div>
           )}
-          {(h as any).esRoles && JSON.parse((h as any).esRoles || '[]').length > 0 && (
+          {[...list((h as any).esRoles), (h as any).esRoleOther].filter(Boolean).length > 0 && (
             <div style={{ marginBottom: 20 }}>
               <div style={{ fontSize: 11, color: '#888', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 500 }}>ES role in those meetings</div>
-              <div style={{ fontSize: 13, color: '#1a1a18', lineHeight: 1.7 }}>
-                {JSON.parse((h as any).esRoles).join(', ')}{(h as any).esRoleOther ? `, ${(h as any).esRoleOther}` : ''}
-              </div>
+              <div style={{ fontSize: 13, color: '#1a1a18', lineHeight: 1.7 }}>{[...list((h as any).esRoles), (h as any).esRoleOther].filter(Boolean).join(', ')}</div>
             </div>
           )}
+          <div style={{ marginTop: 24 }} />
           <Row label="We escalate to the Executive Sponsor when:" value={h.esTrigger} />
           <Row label="Executive Sponsor comments" value={(h as any).esComments} />
         </Section>

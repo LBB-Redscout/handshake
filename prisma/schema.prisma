@@ -105,6 +105,10 @@ model Handshake {
   esGrowthReview       String    @default("") @db.Text
   esRoles              String    @default("[]")
   esRoleOther          String    @default("")
+  esInternalReviews    String    @default("[]")
+  esInternalRoles      String    @default("[]")
+  esInternalRoleOther  String    @default("")
+  esClientAttendance   String    @default("")
   feedbackDuoRealtime      String    @default("") @db.Text
   feedbackDuoCheckin       String    @default("") @db.Text
   feedbackDuoDisagreement  String    @default("") @db.Text

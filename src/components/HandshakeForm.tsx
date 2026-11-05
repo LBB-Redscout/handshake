@@ -7,7 +7,7 @@ import { signOut } from 'next-auth/react'
 type HandshakeData = {
   accountName?: string; date?: string; duoPartnerEmail?: string; executiveSponsor?: string
   accountAmbition?: string; commitment1?: string; commitment2?: string; commitment3?: string
-  esRole?: string; esInvolvement?: string; esComments?: string; esMeetings?: string; esConnectionMethods?: string; esGrowthReview?: string; esRoles?: string; esRoleOther?: string; clientsExperience?: string; teamExperience?: string
+  esRole?: string; esInvolvement?: string; esComments?: string; esMeetings?: string; esConnectionMethods?: string; esGrowthReview?: string; esRoles?: string; esRoleOther?: string; esInternalReviews?: string; esInternalRoles?: string; esInternalRoleOther?: string; esClientAttendance?: string; clientsExperience?: string; teamExperience?: string
   esExperience?: string; nonNegotiable?: string; decisionsJoint?: string; tensionAreas?: string
   csRole?: string; stratDesignRole?: string; clientPushResponse?: string; clientDisagreement?: string
   csEnergy?: string; stratDesignEnergy?: string; csFeedback?: string; stratDesignFeedback?: string
@@ -127,6 +127,10 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
     esGrowthReview: initialData?.esGrowthReview || '',
     esRoles: initialData?.esRoles || '[]',
     esRoleOther: initialData?.esRoleOther || '',
+    esInternalReviews: initialData?.esInternalReviews || '[]',
+    esInternalRoles: initialData?.esInternalRoles || '[]',
+    esInternalRoleOther: initialData?.esInternalRoleOther || '',
+    esClientAttendance: initialData?.esClientAttendance || '',
     clientsExperience: initialData?.clientsExperience || '',
     teamExperience: initialData?.teamExperience || '',
     esExperience: initialData?.esExperience || '',
@@ -326,79 +330,130 @@ export default function HandshakeForm({ initialData, mode, history = [] }: Props
         <Field label="Commitment 3" name="commitment3" placeholder="We commit to..." value={form.commitment3!} onChange={set} />
 
         <div style={dividerStyle} />
-        <SectionHeader title="Working with the Executive Sponsor" aiKey="esSponsor" field="esRole" />
-        <Field label="What is the ES's role on this account?" name="esRole" placeholder="e.g., Builds senior relationships and unlocks growth; does not redirect strategy or execution" value={form.esRole!} onChange={set} />
+        <div style={sectionTitleStyle}>Working with the Executive Sponsor</div>
+
+        <div style={{ fontSize: 11, fontWeight: 'bold', color: '#378ADD', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 28, marginBottom: 2 }}>Internal</div>
+        <div style={{ marginTop: 20 }}>
+          <label style={labelStyle}>Which internal work reviews will the ES join before work goes to the client?</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+          {[{ value: 'One review before client delivery', desc: '' }, { value: 'Every internal review', desc: '' }, { value: 'Ad hoc, when the Duo asks', desc: '' }].map(({ value, desc }) => {
+            const selected: string[] = (() => { try { return JSON.parse(form.esInternalReviews || '[]') } catch { return [] } })()
+            const checked = selected.includes(value)
+            return (
+              <label key={value} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', fontSize: 13 }}>
+                <input type="checkbox" checked={checked} onChange={() => {
+                  const next = checked ? selected.filter(m => m !== value) : [...selected, value]
+                  set('esInternalReviews', JSON.stringify(next))
+                }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, marginTop: 2, cursor: 'pointer' }} />
+                <span>{desc ? <><strong>{value}</strong><span style={{ color: '#888', fontSize: 12 }}> — {desc}</span></> : value}</span>
+              </label>
+            )
+          })}
+        </div>
+        </div>
 
         <div style={{ marginTop: 20 }}>
           <label style={labelStyle}>How will the Duo and ES stay connected?</label>
-          <div style={{ fontSize: 11, color: '#888', marginBottom: 8, fontStyle: 'italic' }}>Trio meetings (Duo + ES) should be no more than bi-weekly.</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {['Bi-weekly trio meeting (Duo + ES)', 'Recap after key client calls', 'Ad hoc as needed'].map(method => {
-              const selected: string[] = (() => { try { return JSON.parse(form.esConnectionMethods || '[]') } catch { return [] } })()
-              const checked = selected.includes(method)
-              return (
-                <label key={method} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 13 }}>
-                  <input type="checkbox" checked={checked} onChange={() => {
-                    const next = checked ? selected.filter(m => m !== method) : [...selected, method]
-                    set('esConnectionMethods', JSON.stringify(next))
-                  }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, cursor: 'pointer' }} />
-                  {method}
-                </label>
-              )
-            })}
-          </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+          {[{ value: 'Bi-weekly trio meeting (Duo + ES)', desc: '' }, { value: 'Recap after key client calls', desc: '' }, { value: 'Ad hoc as needed', desc: '' }].map(({ value, desc }) => {
+            const selected: string[] = (() => { try { return JSON.parse(form.esConnectionMethods || '[]') } catch { return [] } })()
+            const checked = selected.includes(value)
+            return (
+              <label key={value} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', fontSize: 13 }}>
+                <input type="checkbox" checked={checked} onChange={() => {
+                  const next = checked ? selected.filter(m => m !== value) : [...selected, value]
+                  set('esConnectionMethods', JSON.stringify(next))
+                }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, marginTop: 2, cursor: 'pointer' }} />
+                <span>{desc ? <><strong>{value}</strong><span style={{ color: '#888', fontSize: 12 }}> — {desc}</span></> : value}</span>
+              </label>
+            )
+          })}
+        </div>
         </div>
 
         <Field label="How will we review the organic growth plan together?" name="esGrowthReview" placeholder="e.g., As a standing item in every trio meeting / At key project milestones..." value={form.esGrowthReview!} onChange={set} />
 
         <div style={{ marginTop: 20 }}>
-          <label style={labelStyle}>Which client meetings will the ES attend?</label>
+          <label style={labelStyle}>What internal role does the ES play?</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+          {[{ value: 'Advocate', desc: 'champions the account internally, protects resources' }, { value: 'Standby support', desc: 'account planning, brainstorms, gut checks, as directed by the Duo' }].map(({ value, desc }) => {
+            const selected: string[] = (() => { try { return JSON.parse(form.esInternalRoles || '[]') } catch { return [] } })()
+            const checked = selected.includes(value)
+            return (
+              <label key={value} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', fontSize: 13 }}>
+                <input type="checkbox" checked={checked} onChange={() => {
+                  const next = checked ? selected.filter(m => m !== value) : [...selected, value]
+                  set('esInternalRoles', JSON.stringify(next))
+                }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, marginTop: 2, cursor: 'pointer' }} />
+                <span>{desc ? <><strong>{value}</strong><span style={{ color: '#888', fontSize: 12 }}> — {desc}</span></> : value}</span>
+              </label>
+            )
+          })}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 13, flexShrink: 0, color: '#555' }}>Other:</span>
+            <input type="text" value={form.esInternalRoleOther || ''} onChange={e => set('esInternalRoleOther', e.target.value)} placeholder="Describe..." style={{ ...inputStyle, fontSize: 13 }} />
+          </div>
+        </div>
+        </div>
+
+        <div style={{ fontSize: 11, fontWeight: 'bold', color: '#378ADD', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: 28, marginBottom: 2 }}>Client-facing</div>
+        <div style={{ marginTop: 20 }}>
+          <label style={labelStyle}>Will the ES be in client meetings?</label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
-            {['Weekly status', 'Client status', 'Review meetings', 'Presentations', 'Feedback calls'].map(meeting => {
-              const selected: string[] = (() => { try { return JSON.parse(form.esMeetings || '[]') } catch { return [] } })()
-              const checked = selected.includes(meeting)
-              return (
-                <label key={meeting} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 13 }}>
-                  <input type="checkbox" checked={checked} onChange={() => {
-                    const next = checked ? selected.filter(m => m !== meeting) : [...selected, meeting]
-                    set('esMeetings', JSON.stringify(next))
-                  }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, cursor: 'pointer' }} />
-                  {meeting}
-                </label>
-              )
-            })}
+            {['No, internal only', 'Only meetings that include C-suite or senior stakeholders', 'Selected meetings (choose below)'].map(opt => (
+              <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 13 }}>
+                <input type="radio" name="esClientAttendance" checked={form.esClientAttendance === opt} onChange={() => set('esClientAttendance', opt)} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, cursor: 'pointer' }} />
+                {opt}
+              </label>
+            ))}
           </div>
         </div>
 
+        {form.esClientAttendance === 'Selected meetings (choose below)' && (
+        <div style={{ marginTop: 20 }}>
+          <label style={labelStyle}>Which meetings?</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+          {[{ value: 'Weekly status check-ins', desc: '' }, { value: 'Review meetings', desc: '' }, { value: 'Presentations', desc: '' }, { value: 'Feedback calls', desc: '' }].map(({ value, desc }) => {
+            const selected: string[] = (() => { try { return JSON.parse(form.esMeetings || '[]') } catch { return [] } })()
+            const checked = selected.includes(value)
+            return (
+              <label key={value} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', fontSize: 13 }}>
+                <input type="checkbox" checked={checked} onChange={() => {
+                  const next = checked ? selected.filter(m => m !== value) : [...selected, value]
+                  set('esMeetings', JSON.stringify(next))
+                }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, marginTop: 2, cursor: 'pointer' }} />
+                <span>{desc ? <><strong>{value}</strong><span style={{ color: '#888', fontSize: 12 }}> — {desc}</span></> : value}</span>
+              </label>
+            )
+          })}
+        </div>
+        </div>
+        )}
+
+        {form.esClientAttendance && form.esClientAttendance !== 'No, internal only' && (
         <div style={{ marginTop: 20 }}>
           <label style={labelStyle}>What role does the ES play in those meetings?</label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
-            {[
-              { value: 'Observer', desc: 'stays informed, reads the room' },
-              { value: 'Presenter', desc: 'takes the lead on specific content' },
-              { value: 'Advocate', desc: 'champions the account internally, protects resources' },
-              { value: 'Validator', desc: 'lends seniority and credibility to the work' },
-            ].map(({ value, desc }) => {
-              const selected: string[] = (() => { try { return JSON.parse(form.esRoles || '[]') } catch { return [] } })()
-              const checked = selected.includes(value)
-              return (
-                <label key={value} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer' }}>
-                  <input type="checkbox" checked={checked} onChange={() => {
-                    const next = checked ? selected.filter(r => r !== value) : [...selected, value]
-                    set('esRoles', JSON.stringify(next))
-                  }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, marginTop: 2, cursor: 'pointer' }} />
-                  <span style={{ fontSize: 13 }}>
-                    <strong>{value}</strong> <span style={{ color: '#888', fontSize: 12 }}>— {desc}</span>
-                  </span>
-                </label>
-              )
-            })}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: 13, flexShrink: 0, color: '#555' }}>Other:</span>
-              <input type="text" value={form.esRoleOther || ''} onChange={e => set('esRoleOther', e.target.value)} placeholder="Describe..." style={{ ...inputStyle, fontSize: 13 }} />
-            </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+          {[{ value: 'Observer', desc: 'stays informed, reads the room' }, { value: 'Presenter', desc: 'takes the lead on specific content' }, { value: 'Validator', desc: 'lends seniority and credibility to the work' }].map(({ value, desc }) => {
+            const selected: string[] = (() => { try { return JSON.parse(form.esRoles || '[]') } catch { return [] } })()
+            const checked = selected.includes(value)
+            return (
+              <label key={value} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', fontSize: 13 }}>
+                <input type="checkbox" checked={checked} onChange={() => {
+                  const next = checked ? selected.filter(m => m !== value) : [...selected, value]
+                  set('esRoles', JSON.stringify(next))
+                }} style={{ width: 14, height: 14, accentColor: '#378ADD', flexShrink: 0, marginTop: 2, cursor: 'pointer' }} />
+                <span>{desc ? <><strong>{value}</strong><span style={{ color: '#888', fontSize: 12 }}> — {desc}</span></> : value}</span>
+              </label>
+            )
+          })}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 13, flexShrink: 0, color: '#555' }}>Other:</span>
+            <input type="text" value={form.esRoleOther || ''} onChange={e => set('esRoleOther', e.target.value)} placeholder="Describe..." style={{ ...inputStyle, fontSize: 13 }} />
           </div>
         </div>
+        </div>
+        )}
 
         <Field label="We escalate to the Executive Sponsor when:" name="esTrigger" placeholder="e.g., Client confidence is at risk / Scope has expanded beyond what we can absorb" value={form.esTrigger!} onChange={set} />
         <Field label="Any additional Executive Sponsor comments from Duo review (optional)" name="esComments" placeholder="ES notes and sign-off comments..." value={(form as any).esComments || ''} onChange={set} />
